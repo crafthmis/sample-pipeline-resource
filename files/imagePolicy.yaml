@@ -1,0 +1,14 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImagePolicy
+metadata:
+  name: pipeline-resources-policy
+  namespace: service-dev
+spec:
+  imageRepositoryRef:
+    name: pipeline-resources-repo #image registry name
+  filterTags:
+    pattern: '^uat-[a-fA-F0-9]+-(?P<ts>[1-9][0-9]*)'
+    extract: '$ts'
+  policy:
+    numerical:
+      order: asc

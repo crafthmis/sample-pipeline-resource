@@ -1,0 +1,40 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: ms-rtc-validate-swap-process
+  namespace: service-dev-services
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: ms-rtc-validate-swap-process
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: ms-rtc-validate-swap-process
+        version: v1
+    spec:
+      imagePullSecrets:
+      - name: harbor-pull-secret
+      containers:
+      - name: ms-rtc-validate-swap-process
+        ports:
+          - containerPort: 8080
+        image: ocr2.apps.hqocp.techbridge.net/service-dev/ms-rtc-validate-swap-process:prod-v3
+        resources:
+          limits:
+            cpu: '1'
+            memory: 2Gi
+          requests:
+            cpu: 500m
+            memory: 1536Mi
+        envFrom:
+        - configMapRef:
+            name: config-server
+        env:
+        - name: SPRING_CONFIG_PROFILES
+          value: develop
+
+        imagePullPolicy: IfNotPresent

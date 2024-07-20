@@ -1,0 +1,12 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageRepository
+metadata:
+  name: pipeline-resources-repo
+  namespace: service-dev
+spec:
+  image: ocr1.devocp.techbridge.net/service-dev/pipeline-resources
+  interval: 1m0s
+  certSecretRef:
+    name: local-registry-cert
+  secretRef:
+    name: harbor-registry-secret # ocr app uat
